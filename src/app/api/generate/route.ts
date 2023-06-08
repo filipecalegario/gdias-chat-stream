@@ -36,6 +36,13 @@ export async function POST(req: Request): Promise<Response> {
     n: 1,
   };
 
-  const stream = await OpenAIStream(payload);
+  let stream = null;
+  try {
+    stream = await OpenAIStream(payload);
+  } catch (e) {
+    console.error("Error during fetch", e);
+    throw e;
+  }
+
   return new Response(stream);
 }
