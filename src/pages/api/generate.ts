@@ -13,8 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   let prompt;
 
   try {
-    // const body = await req.json();
     prompt = req.body.prompt;
+    console.log("prompt %o", prompt);
   } catch (err) {
     console.error("Error parsing request JSON", err);
     throw err;
@@ -56,5 +56,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     throw e;
   }
 
-  return new Response(stream);
+  res.send(stream);
+
+  // return new Response(stream);
+
+  // stream.on('data', (chunk) => {
+  //   res.write(chunk);
+  // });
+  
+  // stream.on('end', () => {
+  //   res.end();
+  // });
 }

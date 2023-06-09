@@ -15,7 +15,7 @@ export default function ClientSection() {
     setResponse("");
     setLoading(true);
 
-    const response = await fetch("/api/generate", {
+    const response = await fetch("/api/new_generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,6 +24,8 @@ export default function ClientSection() {
         prompt,
       }),
     });
+
+    console.log(response);
 
     if (!response.ok) {
       throw new Error(response.statusText);
