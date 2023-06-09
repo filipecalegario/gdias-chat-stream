@@ -9,9 +9,15 @@ export const config = {
 };
 
 export async function POST(req: Request): Promise<Response> {
-  
-  const requestBody = await req.json();
-  const prompt = requestBody.prompt;
+  let prompt;
+
+  try {
+    const body = await req.json();
+    prompt = body.prompt;
+  } catch (err) {
+    console.error("Error parsing request JSON", err);
+    throw err;
+  }
 
   if (!prompt) {
     return new Response("No prompt in the request", { status: 400 });
