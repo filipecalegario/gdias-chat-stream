@@ -1,26 +1,32 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import { OpenAIStream, OpenAIStreamPayload } from "@/utils/openAIStream";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI");
 }
 
-export const config = {
-  runtime: "edge",
-};
+// export const config = {
+//   runtime: "edge",
+// };
 
-export async function POST(req: Request): Promise<Response> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let prompt;
 
   try {
-    const body = await req.json();
-    prompt = body.prompt;
+    // const body = await req.json();
+    prompt = req.body.prompt;
   } catch (err) {
     console.error("Error parsing request JSON", err);
     throw err;
   }
 
+  // if (!prompt) {
+  //   return new Response("No prompt in the request", { status: 400 });
+  // }
+
   if (!prompt) {
-    return new Response("No prompt in the request", { status: 400 });
+    res.status(400).send("No prompt in the request");
+    return;
   }
 
   const payload: OpenAIStreamPayload = {
