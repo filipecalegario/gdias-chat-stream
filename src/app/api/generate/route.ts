@@ -9,9 +9,9 @@ export const config = {
 };
 
 export async function POST(req: Request): Promise<Response> {
-  const { prompt } = (await req.json()) as {
-    prompt?: string;
-  };
+  
+  const requestBody = await req.json();
+  const prompt = requestBody.prompt;
 
   if (!prompt) {
     return new Response("No prompt in the request", { status: 400 });
